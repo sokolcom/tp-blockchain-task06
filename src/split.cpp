@@ -5,6 +5,7 @@
 #include <openssl/rand.h>
 
 #include "../include/define.h"
+#include "../include/split.h"
 #include "../uint256_t/uint256_t.h"
 
 
