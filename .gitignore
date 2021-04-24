@@ -1,6 +1,7 @@
 *.o
 *.out
 *.exe
+*.so
 
 
 __pycache__/
