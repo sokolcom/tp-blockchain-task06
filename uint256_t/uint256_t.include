@@ -414,6 +414,12 @@ class uint256_t{
         // two's complement
         uint256_t operator-() const;
 
+        // Raise to the power
+        uint256_t pow(const uint32_t power) const;
+
+        // From 32 bytes
+        void from_bytes(const uint8_t *const bytes);
+
         // Get private values
         const uint128_t & upper() const;
         const uint128_t & lower() const;
@@ -631,4 +637,5 @@ T & operator%=(T & lhs, const uint256_t & rhs){
 
 // IO Operator
 UINT256_T_EXTERN std::ostream & operator<<(std::ostream & stream, const uint256_t & rhs);
+UINT256_T_EXTERN std::istream &operator>>(std::istream &stream, uint256_t &rhs);
 #endif

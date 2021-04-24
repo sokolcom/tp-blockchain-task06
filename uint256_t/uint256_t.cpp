@@ -763,3 +763,43 @@ std::ostream & operator<<(std::ostream & stream, const uint256_t & rhs){
     }
     return stream;
 }
+
+std::istream &operator>>(std::istream &stream, uint256_t &rhs)
+{
+    std::string hexstring;
+    stream >> hexstring;
+    uint256_t temp = hexstring;
+    rhs = std::move(temp);
+    return stream;
+}
+
+uint256_t uint256_t::pow(const uint32_t power) const
+{
+    uint256_t result = 1;
+    for (uint32_t i = 0; i < power; i++)
+    {
+        result *= *this;
+    }
+
+    return result;
+}
+
+void uint256_t::from_bytes(const uint8_t *const bytes)
+{
+    uint64_t buffer64[4] = { 0 };
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        uint64_t value = 0;
+        for (int8_t j = (i * 8) + 7; j >= (i * 8); j--)
+        {
+            value <<= 8;
+            value |= (uint64_t)bytes[j];
+        }
+
+        buffer64[i] = value;
+    }
+
+    uint128_t upper(buffer64[3], buffer64[2]), lower(buffer64[1], buffer64[0]);
+    UPPER = upper;
+    LOWER = lower;
+}
