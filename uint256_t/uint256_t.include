@@ -415,7 +415,7 @@ class uint256_t{
         uint256_t operator-() const;
 
         // Raise to the power
-        uint256_t pow(const uint32_t power) const;
+        uint256_t pow_mod(uint256_t power, const uint256_t &modulo) const;
 
         // From 32 bytes
         void from_bytes(const uint8_t *const bytes);

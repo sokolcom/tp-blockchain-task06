@@ -773,12 +773,19 @@ std::istream &operator>>(std::istream &stream, uint256_t &rhs)
     return stream;
 }
 
-uint256_t uint256_t::pow(const uint32_t power) const
+uint256_t uint256_t::pow_mod(uint256_t power, const uint256_t &modulo) const
 {
+    uint256_t a = *this;
     uint256_t result = 1;
-    for (uint32_t i = 0; i < power; i++)
+
+    while (power)
     {
-        result *= *this;
+        if (power & 1)
+        {
+            result = result * a % modulo;
+        }
+        a = a * a % modulo;
+        power >>= 1;
     }
 
     return result;
