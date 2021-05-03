@@ -414,8 +414,10 @@ class uint256_t{
         // two's complement
         uint256_t operator-() const;
 
-        // Raise to the power
-        uint256_t pow_mod(uint256_t power, const uint256_t &modulo) const;
+        // Modualar math
+        uint256_t powmod(uint256_t power, const uint256_t &modulo) const;
+        uint256_t mulmod(uint256_t another, const uint256_t &modulo) const;
+        uint256_t addmod(uint256_t &another, const uint256_t &modulo) const;
 
         // From 32 bytes
         void from_bytes(const uint8_t *const bytes);

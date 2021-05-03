@@ -773,7 +773,9 @@ std::istream &operator>>(std::istream &stream, uint256_t &rhs)
     return stream;
 }
 
-uint256_t uint256_t::pow_mod(uint256_t power, const uint256_t &modulo) const
+#include <assert.h>
+
+uint256_t uint256_t::powmod(uint256_t power, const uint256_t &modulo) const
 {
     uint256_t a = *this;
     uint256_t result = 1;
@@ -782,10 +784,86 @@ uint256_t uint256_t::pow_mod(uint256_t power, const uint256_t &modulo) const
     {
         if (power & 1)
         {
-            result = result * a % modulo;
+            // assert(uint256_max / a > result);
+            result = result.mulmod(a, modulo);
+            // result = result * a % modulo;
         }
-        a = a * a % modulo;
+
+        // assert(uint256_max / a > a);
+        a = a.mulmod(a, modulo);
+        // a = a * a % modulo;
         power >>= 1;
+    }
+
+    return result;
+}
+
+uint256_t uint256_t::mulmod(uint256_t another, const uint256_t &modulo) const
+{
+    uint256_t result = 0;
+    uint256_t a = *this;
+
+    if (a > another)
+    {
+        uint256_t temp = a;
+        a = another;
+        another = temp;
+    }
+
+    while (a)
+    {
+        if (a & 1)
+        {
+            result = result.addmod(another, modulo);
+        }
+
+        another = another.addmod(another, modulo);
+        a >>= 1;
+    }
+
+    // while (another)
+    // {
+    //     if (another % 2)
+    //     {
+    //         if (modulo - result < a)
+    //         {
+    //             // assert(result - (uint256_max - a) == result + a);
+    //             result -= modulo - a;
+    //         }
+    //         else
+    //         {
+    //             // assert(modulo - result >= a);
+    //             result += a;
+    //         }
+    //     }
+
+    //     if (modulo - a < a)
+    //     {
+    //         a -= modulo - a;
+    //     }
+    //     else
+    //     {
+    //         // assert(uint256_max - a >= a);
+    //         a *= 2;
+    //     }
+        
+    //     another /= 2;
+    // }
+
+    return result;
+}
+
+uint256_t uint256_t::addmod(uint256_t &another, const uint256_t &modulo) const
+{
+    uint256_t result;
+
+    if (modulo - *this > another)
+    {
+        result = *this + another;
+    }
+    else
+    {
+        result = another - (modulo - *this);
     }
 
     return result;
