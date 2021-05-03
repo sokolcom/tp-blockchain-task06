@@ -16,18 +16,22 @@ This program shares 256 bit key (e.g. ECDSA secp256k1 private key) between ___N_
 ```sh
 git clone https://github.com/sokolcom/tp-blockchain-task06.git
 ```
-3. 🔨 Run ```make``` in the repo directory to build the program (```app.out```).
+3. :space_invader: Install `openssl`.
+```sh
+sudo apt-get install libssl-dev
+```
+4. 🔨 Run ```make``` in the repo directory to build the program (```app.out```).
 ```sh
 make
 ```
-4. 🚀 To run program simply execute:
+5. 🚀 To run program simply execute:
 ```sh
 /app.out <mode>
 ```
 where
 * \<mode\>: program mode ("__split__" or "__recover__").
 
-5. 🔍 You can run ```make split``` or ```make recover```, which ivokes 
+6. 🔍 You can run ```make split``` or ```make recover```, which ivokes 
 ```sh
 /app.out split
  ```
