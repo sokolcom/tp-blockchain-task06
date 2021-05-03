@@ -20,7 +20,7 @@ split: app.out
 	./$^ split
 
 
-recover: a.out
+recover: app.out
 	./$^ recover
 
 
